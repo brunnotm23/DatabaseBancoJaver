@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import static org.springframework.http.HttpStatus.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -26,17 +28,17 @@ public class ClienteController {
     public Cliente getClienteById(@PathVariable Integer id){
         return clientes
                 .findById(id)
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado."));
+                .orElseThrow( () -> new ResponseStatusException(NOT_FOUND, "Cliente não encontrado."));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public Cliente save (@RequestBody @Valid Cliente cliente){
         return clientes.save(cliente);
     }
 
     @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable Integer id){
         clientes.findById(id)
                 .map(cliente -> { clientes.delete(cliente); return Void.class; })
@@ -50,7 +52,7 @@ public class ClienteController {
             cliente.setId(clienteExistente.getId());
             clientes.save(cliente);
             return clienteExistente;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+        }).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Cliente não encontrado"));
     }
 
     @GetMapping("/buscar")
@@ -58,7 +60,9 @@ public class ClienteController {
         ExampleMatcher exampleMatcher = ExampleMatcher
                                         .matching()
                                         .withIgnoreCase()
-                                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+                                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                                        .withIgnorePaths("saldo_cc")
+                                        .withIgnorePaths("score_credito");
         Example example = Example.of(filtro, exampleMatcher);
         return clientes.findAll(example);
     }
