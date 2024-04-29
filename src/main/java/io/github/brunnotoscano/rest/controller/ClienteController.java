@@ -1,8 +1,10 @@
-package io.github.brunnotoscano.domain.rest.controller;
+package io.github.brunnotoscano.rest.controller;
 
 
 import io.github.brunnotoscano.domain.entity.Cliente;
 import io.github.brunnotoscano.domain.repository.Clientes;
+import io.github.brunnotoscano.domain.service.ClienteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -18,53 +20,38 @@ import java.util.List;
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
-    private Clientes clientes;
+    private final ClienteService clienteService;
 
-    public ClienteController(Clientes clientes){
-        this.clientes = clientes;
+    public ClienteController(ClienteService clienteService) {
+        this.clienteService = clienteService;
     }
 
     @GetMapping("{id}")
     public Cliente getClienteById(@PathVariable Integer id){
-        return clientes
-                .findById(id)
-                .orElseThrow( () -> new ResponseStatusException(NOT_FOUND, "Cliente não encontrado."));
+        return clienteService.getClienteById(id);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
     public Cliente save (@RequestBody @Valid Cliente cliente){
-        return clientes.save(cliente);
+        return clienteService.save(cliente);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable Integer id){
-        clientes.findById(id)
-                .map(cliente -> { clientes.delete(cliente); return Void.class; })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+        clienteService.delete(id);
     }
 
 
     @PutMapping("{id}")
     public void update(@PathVariable Integer id, @RequestBody @Valid Cliente cliente){
-        clientes.findById(id).map( clienteExistente -> {
-            cliente.setId(clienteExistente.getId());
-            clientes.save(cliente);
-            return clienteExistente;
-        }).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Cliente não encontrado"));
+        clienteService.update(id,cliente);
     }
 
     @GetMapping("/buscar")
     public List<Cliente> find(Cliente filtro){
-        ExampleMatcher exampleMatcher = ExampleMatcher
-                                        .matching()
-                                        .withIgnoreCase()
-                                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                                        .withIgnorePaths("saldo_cc")
-                                        .withIgnorePaths("score_credito");
-        Example example = Example.of(filtro, exampleMatcher);
-        return clientes.findAll(example);
+        return clienteService.find(filtro);
     }
 
 }

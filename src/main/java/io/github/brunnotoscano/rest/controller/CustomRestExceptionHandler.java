@@ -1,6 +1,8 @@
 package io.github.brunnotoscano.rest.controller;
 
+import io.github.brunnotoscano.domain.entity.Cliente;
 import io.github.brunnotoscano.rest.ApiError;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
-public class ExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -34,8 +36,9 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
             erros.add(erro.getObjectName() + ": " + erro.getDefaultMessage());
         }
 
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), erros);
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, erros);
         return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
 
     }
+
 }

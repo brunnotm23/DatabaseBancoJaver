@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -29,7 +30,8 @@ public class Cliente {
     private Long telefone;
 
     @Column(name = "correntista")
-    private boolean correntista;
+    @NotNull(message = "Campo correntista não pode ser nulo")
+    private Boolean correntista;
 
     @Column(name = "score")
     private float score_credito;
