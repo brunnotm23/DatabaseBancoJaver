@@ -1,13 +1,11 @@
 package io.github.brunnotoscano.domain.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cliente")
@@ -22,15 +20,15 @@ public class Cliente {
     private Integer id;
 
     @Column(name = "nome")
-    @NotEmpty(message = "Campo Nome não pode ser vazio")
+    @NotEmpty
     private String nome;
 
     @Column(name = "telefone")
-    @NotNull(message = "Campo telefone não pode ser vazio")
+    @NotNull
     private Long telefone;
 
     @Column(name = "correntista")
-    @NotNull(message = "Campo correntista não pode ser nulo")
+    @NotNull
     private Boolean correntista;
 
     @Column(name = "score")

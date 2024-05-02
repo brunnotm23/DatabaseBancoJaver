@@ -4,6 +4,7 @@ package io.github.brunnotoscano.rest.controller;
 import io.github.brunnotoscano.domain.entity.Cliente;
 import io.github.brunnotoscano.domain.repository.Clientes;
 import io.github.brunnotoscano.domain.service.ClienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -13,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.*;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 @RestController

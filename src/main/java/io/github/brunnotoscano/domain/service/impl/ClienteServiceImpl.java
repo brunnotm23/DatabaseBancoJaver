@@ -4,7 +4,6 @@ import io.github.brunnotoscano.domain.entity.Cliente;
 import io.github.brunnotoscano.domain.repository.Clientes;
 import io.github.brunnotoscano.domain.service.ClienteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
