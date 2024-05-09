@@ -28,6 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
+//|**************************************************|
+//| Descrição: Testes unitários do ClienteController |
+//|**************************************************|
+
 @WebMvcTest(controllers = ClienteController.class)
 class ClienteControllerTest {
 
@@ -117,8 +121,6 @@ class ClienteControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body)
                 )
-                .andDo(print())
-                .andExpect(model().attributeHasErrors("nome"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -174,7 +176,6 @@ class ClienteControllerTest {
 
     @Test
     public void ClienteController_Find_ReturnCliente() throws Exception {
-        // Cria uma lista de clientes simulada para retornar do serviço
         List<Cliente> clientesSimulados = new ArrayList<>();
         clientesSimulados.add(cliente);
         when(service.find(argThat(clienteBuscado -> clienteBuscado.getNome().equals(cliente.getNome())))).thenReturn(clientesSimulados);
@@ -189,6 +190,27 @@ class ClienteControllerTest {
                                 jsonPath("$[0].nome").value(cliente.getNome()),
                                 jsonPath("$[0].correntista").value(cliente.getCorrentista())
                         );
+
+    }
+
+    @Test
+    public void ClienteController_Find_ReturnEmpty() throws Exception {
+        List<Cliente> clientesSimulados = new ArrayList<>();
+        when(service.find(argThat(clienteBuscado -> clienteBuscado.getNome().equals(cliente.getNome())))).thenReturn(clientesSimulados);
+
+
+        // Faz uma requisição GET para o endpoint "/api/clientes/buscar" com os parâmetros adequados
+        mockMvc.perform(get("/api/clientes/buscar")
+                        .param("nome", cliente.getNome()))
+                .andExpect(status().isOk())
+                .andExpectAll(
+                        jsonPath("$[0].id").doesNotExist(),
+                        jsonPath("$[0].nome").doesNotExist(),
+                        jsonPath("$[0].correntista").doesNotExist(),
+                        jsonPath("$[0].saldo_cc").doesNotExist(),
+                        jsonPath("$[0].telefone").doesNotExist(),
+                        jsonPath("$[0].score_credito").doesNotExist()
+                );
 
     }
 

@@ -1,9 +1,12 @@
 package io.github.brunnotoscano.domain.service;
 
 import io.github.brunnotoscano.domain.entity.Cliente;
-import io.github.brunnotoscano.domain.repository.Clientes;
 
 import java.util.List;
+
+//|****************************************************************************|
+//| Descrição: Template dos métodos que as implementações de serviço devem ter |
+//|****************************************************************************|
 
 public interface ClienteService {
 

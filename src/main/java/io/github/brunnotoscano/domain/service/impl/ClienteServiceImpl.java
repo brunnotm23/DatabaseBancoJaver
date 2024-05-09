@@ -14,6 +14,10 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+//|**********************************************************************************|
+//| Descrição: Serviço que contém os métodos e operações utilizadas na base de dados |
+//|**********************************************************************************|
+
 @Service
 @RequiredArgsConstructor
 public class ClienteServiceImpl implements ClienteService {
