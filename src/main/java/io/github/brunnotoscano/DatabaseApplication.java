@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //|********************************|
 
 @SpringBootApplication
-public class databaseApplication {
+public class DatabaseApplication {
     public static void main(String[] args) {
-        SpringApplication.run(databaseApplication.class, args);
+        SpringApplication.run(DatabaseApplication.class, args);
     }
 }

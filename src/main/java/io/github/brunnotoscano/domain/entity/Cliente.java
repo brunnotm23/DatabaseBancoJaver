@@ -43,5 +43,4 @@ public class Cliente {
     @Column(name = "saldo")
     private float saldo_cc;
 
-
 }
